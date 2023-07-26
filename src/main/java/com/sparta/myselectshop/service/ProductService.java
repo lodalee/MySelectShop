@@ -32,7 +32,7 @@ public class ProductService {
     }
 
     //관심 상품 수정
-    @Transactional
+    @Transactional(readOnly = true)
     public ProductResponseDto updateProduct(Long id, ProductMypriceRequestDto requestDto) {
         int myprice = requestDto.getMyprice();
         if(myprice < MIN_MY_PRICE){
@@ -49,6 +49,7 @@ public class ProductService {
     }
 
     //관심 상품 전체 조회
+    @Transactional
     public Page<ProductResponseDto> getProducts(User user, int page, int size, String sortBy, boolean isAsc) {
         Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(direction, sortBy);

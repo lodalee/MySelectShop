@@ -4,9 +4,13 @@ import com.sparta.myselectshop.dto.ProductMypriceRequestDto;
 import com.sparta.myselectshop.dto.ProductRequestDto;
 import com.sparta.myselectshop.naver.dto.ItemDto;
 import jakarta.persistence.*;
+import jdk.dynalink.linker.LinkerServices;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity // JPA가 관리할 수 있는 Entity 클래스 지정
 @Getter
@@ -37,6 +41,9 @@ public class Product extends Timestamped {
     @ManyToOne(fetch = FetchType.LAZY) //product 조회할 때마다 product 를 등록한 회원의 정보가 필요하지 않다.
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "product")
+    private List<ProductFolder> productFolderList = new ArrayList<>();
 
 
 
