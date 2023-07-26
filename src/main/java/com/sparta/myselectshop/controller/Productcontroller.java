@@ -8,6 +8,7 @@ import com.sparta.myselectshop.service.ProductService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,13 +35,12 @@ public class Productcontroller {
 
     //관심 상품 전체 조회
     @GetMapping("/products")
-    public List<ProductResponseDto> getProducts(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        return productService.getProducts(userDetails.getUser());
-    }
-
-    //admin 관심 상품 전체 조회
-    @GetMapping("/admin/products")
-    public List<ProductResponseDto> getAllProducts(){
-        return productService.getAllProducts();
+    public Page<ProductResponseDto> getProducts(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam("sordBy") String sortBy,
+            @RequestParam("isAsc") boolean isAsc,
+            @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return productService.getProducts(userDetails.getUser(),page-1, size, sortBy, isAsc);
     }
 }
